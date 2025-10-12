@@ -8,6 +8,21 @@
     background-color:#0dcaf0;
 }
 
+.shelf-book {
+    max-height: 300px;
+    width: auto;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.shelf-book:hover {
+    transform: scale(1.07);
+    cursor: pointer;
+}
+
 img{
 
     max-height:580px;
