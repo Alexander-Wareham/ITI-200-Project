@@ -9,4 +9,5 @@ function submitEmail() {
     }
   }
 
+
 btn.addEventListener("click", submitEmail);
