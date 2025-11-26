@@ -26,7 +26,8 @@ CREATE TABLE ReadingStats (
     audioLength TIME,
     currentPage INT,
     Rating FLOAT,
-    readingStatus VARCHAR(100),
+    readingStatus VARCHAR(100), --TBR, Currently Reading, Completed
+    cover VARCHAR(1000),
 	PRIMARY KEY(username, book, dateStarted),
     FOREIGN KEY(username) REFERENCES Users(username),
     FOREIGN KEY(book, author) REFERENCES Books(title, author)
@@ -67,3 +68,9 @@ INSERT INTO Discussions(book, author) VALUES ('Lessons in Chemistry', 'Bonnie Ga
 INSERT INTO Discussions(book, author) VALUES ('Pageboy', 'Elliot Page');
 INSERT INTO Discussions(book, author) VALUES ('The Poppy War', 'R.F. Kuang');
 INSERT INTO Discussions(book, author) VALUES ('Tress of the Emerald Sea', 'Brandon Sanderson');
+
+INSERT INTO Users(username, pswd, email) VALUES ('example', 'examplepass', 'example@email.com');
+
+INSERT INTO ReadingStats(username, book, author, dateStarted, pageNum, currentPage, readingStatus, cover) VALUES ('example', 'Pageboy', 'Elliot Page', '2025-10-28', 400, 45, 'Currently Reading', '\images\Pageboy.jpg');
+INSERT INTO ReadingStats(username, book, author, dateStarted, dateCompleted, pageNum, readingStatus, cover) VALUES ('example', 'The Poppy War', 'R.F. Kuang', '2025-9-12', '2025-9-22', 492, 'Completed', '\images\PoppyWarCover.jpg');
+INSERT INTO ReadingStats(username, book, author, readingStatus, cover, dateStarted) VALUES ('kt', 'The Midnight Library', 'Matt Haig', 'Currently Reading', '\images\The-Midnight-Library.jpg', '2025-11-09');
