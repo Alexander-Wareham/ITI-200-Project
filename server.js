@@ -31,8 +31,6 @@ app.post("/api/user/check", (req, res) => {
         if(results.rows.length===0){
             return res.status(404).json({error: "User not found"});
         }
-
-        console.log(results.rows);
         return res.status(200);
     })
 
@@ -80,6 +78,78 @@ app.post("/api/search", (req, res) => {
 
     
     
+});
+
+app.get("/api/home/getReads", (req, res) => {
+    console.log("Server Accessed");
+    console.log(req.query);
+
+    const data = [req.query.username, req.query.status];
+    const sql= `SELECT * FROM ReadingStats WHERE username=$1 AND readingStatus=$2`;
+    pool.query(sql, data, (error, results) => {
+        if(error) {throw error}
+        if(results.rows.length===0){
+            console.log("No books found");
+            return res.status(404).json({error: "No books found"});
+        }
+        console.log(results.rows);
+        return res.status(200).json(results.rows)
+    })
+
+});
+
+app.get("/api/getBookInfo", (req, res) =>{
+    const data = [req.query.username, req.query.book];
+    const sql= `SELECT * FROM ReadingStats WHERE username=$1 AND readingStatus='Currently Reading' AND book=$2`
+
+    pool.query(sql, data, (error, results) => {
+        if(error) {throw error}
+
+        console.log(results.rows);
+        return res.status(200).json(results.rows)
+    })
+})
+
+app.post("/api/home/editBookProgress", (req, res) => {
+    console.log("Server accessed");
+    const progress = req.body;
+    
+
+    const data = [progress.username, progress.book, progress.currentPage, progress.totalPages, progress.readingStatus];
+        
+    const sql = "UPDATE ReadingStats SET currentPage=$3, pageNum=$4, readingStatus=$5 WHERE username=$1 AND book=$2";
+    
+    
+
+    pool.query(sql, data, (error, results) => {
+        if(error) {
+            throw error;
+        } 
+        return res.status(200).json("Updated Successfully");
+    })
+
+    
+    
+});
+
+app.get("/api/home/getYearReads", (req, res) => {
+    console.log("Server Accessed");
+
+    const startDate = `${req.query.year}-01-01`;
+    const endDate = `${req.query.year}-12-31`;
+
+    const data = [req.query.username, startDate, endDate];
+    const sql= `SELECT * FROM ReadingStats WHERE username=$1 AND dateCompleted BETWEEN $2 AND $3`;
+    pool.query(sql, data, (error, results) => {
+        if(error) {throw error}
+        if(results.rows.length===0){
+            console.log("No books found");
+            return res.status(404).json({error: "No books found"});
+        }
+        console.log(results.rows);
+        return res.status(200).json(results.rows)
+    })
+
 });
 
 
